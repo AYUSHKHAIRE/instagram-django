@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block content %}
+<div class="mainprofilecontainer">
+  <h2>Edit Profile</h2>
+  <div class="profilecontainer">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="image">Profile Picture:</label>
+      <h3>Current profile picture :</h3>
+      <img src="{{ profile.image.url }}" alt="" />
+      <input type="file" id="image" name="image" />
+      <label for="first_name">First Name:</label>
+      <input
+        type="text"
+        id="first_name"
+        name="first_name"
+        value="{{ profile.first_name }}"
+      />
+      <label for="last_name">Last Name:</label>
+      <input
+        type="text"
+        id="last_name"
+        name="last_name"
+        value="{{ profile.last_name }}"
+      />
+      <label for="bio">Bio:</label>
+      <textarea id="bio" name="bio">{{ profile.bio }}</textarea>
+      <label for="location">Location:</label>
+      <input
+        type="text"
+        id="location"
+        name="location"
+        value="{{ profile.location }}"
+      />
+      <label for="url">URL:</label>
+      <input type="url" id="url" name="url" value="{{ profile.url }}" />
+      <input class="button" type="submit" value="Save" />
+    </form>
+  </div>
+</div>
+{% endblock content %}

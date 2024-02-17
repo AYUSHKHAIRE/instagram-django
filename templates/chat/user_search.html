@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div id="wrapper">
+  <div class="container-for-form">
+    <div class="phone-app-ddemo"></div>
+    <div class="form-data">
+      <form action="" method="GET">
+        <div class="headedr__search">
+          <input
+            type="text"
+            placeholder="Search"
+            name="q"
+            value="{{ request.GET.q }}"
+          />
+          <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+      </form>
+
+      <form action="" method="POST" enctype="multipart/form-data">
+        <div class="logo">
+          <h3 style="padding-top: 5px; font-size: 20px">Search Results</h3>
+        </div>
+
+        {% for user in users %}
+        <div
+          class="side-menu__user-profile"
+          style="
+            text-align: start;
+            border: solid rgba(192, 192, 192, 0.514) 1px;
+            padding: 10px;
+            border-radius: 25px;
+          "
+        >
+          <a
+            href="{% url 'profile' user.username %}"
+            class="side-menu__user-avatar"
+          >
+            {% if user.profile.image.url %}
+            <img src="{{ user.profile.image.url }}" alt="User Picture" />
+            {% else %}
+            <img src="{% static 'assets1/default.jpg' %}" alt="User Picture" />
+
+            {% endif %}
+          </a>
+          <div class="side-menu__user-idnfo">
+            {% if user.profile.first_name %}
+            <a
+              href="{% url 'profile' user.username %}"
+              style="font-size: 15px; color: black; text-align: center"
+              >{{user.profile.first_name|title }} {{user.profile.last_name|title
+              }}</a
+            >
+            {% else%}
+            <a href="{% url 'profile' user.username %}">Instagram User</a>
+
+            {% endif %}
+            <br />
+            <span style="font-size: 14px">@{{user.username}}</span>
+            <br />
+            <a
+              href="{% url 'profile' user.username %}"
+              style="color: blue"
+              class="side-menu__user-button"
+              >View Profile</a
+            >
+          </div>
+        </div>
+        <!-- <hr> -->
+        {% endfor %}
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,163 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="cardcon">
+  <div class="card">
+    <div class="top">
+      <div class="userDetails">
+        <div class="profilepic">
+          <div class="profile_img">
+            <div class="image">
+              <img
+                src="https://media.geeksforgeeks.org/wp-content/uploads/20220609093229/g-200x200.png"
+                alt="img8"
+              />
+            </div>
+          </div>
+        </div>
+        <h3>
+          {{post.user.username}}
+          <br />
+        </h3>
+      </div>
+      <div>
+        <span class="dot">
+          <i class="fas fa-ellipsis-h"></i>
+        </span>
+      </div>
+    </div>
+    <div class="imgBx">
+      <img src="{{post.picture.url}}" alt="post-1" class="cover" />
+    </div>
+    <div class="bottom">
+      <div class="actionBtns">
+        <div class="left">
+          <span class="" onclick="addlike()">
+            <a href="{% url 'post_like' post.id %}" class="">
+              {% if post.id in liked_post_ids%}
+              <img
+                src="{% static 'asets/likeheart.png' %}"
+                alt=""
+                style="height: 30px; width: 30px"
+              />
+              {% else %}
+              <img
+                src="{% static 'asets/heart.png' %}"
+                alt=""
+                style="height: 30px; width: 30px"
+              />
+              {% endif %}
+            </a>
+          </span>
+          <svg
+            aria-label="Comment"
+            class="_8-yf5"
+            color="#262626"
+            fill="#262626"
+            height="24"
+            role="img"
+            viewBox="0 0 48 48"
+            width="24"
+          >
+            <!-- Coordinate path -->
+            <path
+              clip-rule="evenodd"
+              d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 
+										11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 
+										7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 
+										4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 
+										8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 
+										2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 
+										44.5 12.7 44.5 24z"
+              fill-rule="evenodd"
+            ></path>
+          </svg>
+          <svg
+            aria-label="Share Post"
+            class="_8-yf5"
+            color="#262626"
+            fill="#262626"
+            height="24"
+            role="img"
+            viewBox="0 0 48 48"
+            width="24"
+          >
+            <path
+              d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 
+										3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 
+										1 1.2 1.1h.2c.5 0 1-.3 
+										1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 
+										6.1h35.5L18 18.7 5.2 6.1zm18.7 
+										33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"
+            ></path>
+          </svg>
+        </div>
+        <div class="right">
+          <svg
+            aria-label="Save"
+            class="_8-yf5"
+            color="#262626"
+            fill="#262626"
+            height="24"
+            role="img"
+            viewBox="0 0 48 48"
+            width="24"
+          >
+            <!-- Coordinate path -->
+            <path
+              d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 
+										47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 
+										3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 
+										1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 
+										0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 
+										1.4-.9 2.2-.9z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+      <a href="#">
+        <p class="likes">{{post.likes}} likes</p>
+      </a>
+      <p>{{post.caption}}</p>
+      <a href="#">
+        {% for tag in post.tags.all %}
+        <a href="{{ tag.get_absolute_url }}">#{{ tag }}</a>
+        {% endfor %}
+      </a>
+
+      <a href="#">
+        <h4 class="comments">View all {{commentcount}} comments</h4>
+      </a>
+      <a href="#">
+        <h5 class="postTime">{{post.posted}}</h5>
+      </a>
+      <div class="addComments">
+        <div class="reaction">
+          <h3>
+            <i class="far fa-smile"></i>
+          </h3>
+        </div>
+        <form action="{% url 'post_details' post.id %}" method="post">
+          {% csrf_token %}
+          <input
+            type="text"
+            name="comment"
+            class="text"
+            placeholder="Add a comment..."
+          />
+          <input type="submit" value="Post" />
+        </form>
+      </div>
+      <div class="comments">
+        {% for comm in comments %}
+        <div class="comment">
+          <div class="username">{{ comm.user.username }}</div>
+          <div class="text">{{ comm.body }}</div>
+          <div class="date">{{ comm.date }}</div>
+          <div class="likes">{{ comm.likes }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
